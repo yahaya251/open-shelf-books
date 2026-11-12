@@ -1,0 +1,530 @@
+{
+  "dialect": "Oracle 19c or later",
+  "status": "Standalone demonstration schema with synthetic fixtures",
+  "entities": [
+    {
+      "name": "MEMBER_TYPE",
+      "attributes": [
+        {
+          "name": "member_type_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "会员类型编号"
+        },
+        {
+          "name": "type_name",
+          "type": "VARCHAR2(40)",
+          "nullable": false,
+          "key": "UQ",
+          "label_zh": "类型名称"
+        },
+        {
+          "name": "loan_limit",
+          "type": "NUMBER(3)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "借阅数量上限"
+        },
+        {
+          "name": "loan_days",
+          "type": "NUMBER(3)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "借阅天数"
+        },
+        {
+          "name": "max_renewals",
+          "type": "NUMBER(2)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "续借次数上限"
+        }
+      ],
+      "label_zh": "会员类型"
+    },
+    {
+      "name": "LIB_MEMBER",
+      "attributes": [
+        {
+          "name": "member_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "会员编号"
+        },
+        {
+          "name": "matric_no",
+          "type": "VARCHAR2(20)",
+          "nullable": false,
+          "key": "UQ",
+          "label_zh": "学号"
+        },
+        {
+          "name": "full_name",
+          "type": "VARCHAR2(100)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "姓名"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR2(254)",
+          "nullable": false,
+          "key": "UQ",
+          "label_zh": "邮箱"
+        },
+        {
+          "name": "member_type_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK MEMBER_TYPE",
+          "label_zh": "会员类型编号"
+        },
+        {
+          "name": "expires_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "会员到期日"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR2(10)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "会员状态"
+        }
+      ],
+      "label_zh": "图书馆会员"
+    },
+    {
+      "name": "STAFF",
+      "attributes": [
+        {
+          "name": "staff_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "职员编号"
+        },
+        {
+          "name": "staff_name",
+          "type": "VARCHAR2(100)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "职员姓名"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR2(254)",
+          "nullable": false,
+          "key": "UQ",
+          "label_zh": "邮箱"
+        }
+      ],
+      "label_zh": "职员"
+    },
+    {
+      "name": "PUBLISHER",
+      "attributes": [
+        {
+          "name": "publisher_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "出版社编号"
+        },
+        {
+          "name": "publisher_name",
+          "type": "VARCHAR2(120)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "出版社名称"
+        }
+      ],
+      "label_zh": "出版社"
+    },
+    {
+      "name": "BOOK_TITLE",
+      "attributes": [
+        {
+          "name": "title_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "书目编号"
+        },
+        {
+          "name": "isbn",
+          "type": "VARCHAR2(13)",
+          "nullable": true,
+          "key": "UQ",
+          "label_zh": "ISBN"
+        },
+        {
+          "name": "title_name",
+          "type": "VARCHAR2(200)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "书名"
+        },
+        {
+          "name": "publisher_id",
+          "type": "NUMBER(10)",
+          "nullable": true,
+          "key": "FK PUBLISHER",
+          "label_zh": "出版社编号"
+        },
+        {
+          "name": "publication_year",
+          "type": "NUMBER(4)",
+          "nullable": true,
+          "key": "NULL",
+          "label_zh": "出版年"
+        }
+      ],
+      "label_zh": "书目"
+    },
+    {
+      "name": "AUTHOR",
+      "attributes": [
+        {
+          "name": "author_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "作者编号"
+        },
+        {
+          "name": "author_name",
+          "type": "VARCHAR2(100)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "作者姓名"
+        }
+      ],
+      "label_zh": "作者"
+    },
+    {
+      "name": "TITLE_AUTHOR",
+      "attributes": [
+        {
+          "name": "title_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK FK BOOK_TITLE",
+          "label_zh": "书目编号"
+        },
+        {
+          "name": "author_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK FK AUTHOR",
+          "label_zh": "作者编号"
+        }
+      ],
+      "label_zh": "书目作者关联"
+    },
+    {
+      "name": "BOOK_COPY",
+      "attributes": [
+        {
+          "name": "copy_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "副本编号"
+        },
+        {
+          "name": "barcode",
+          "type": "VARCHAR2(30)",
+          "nullable": false,
+          "key": "UQ",
+          "label_zh": "条码"
+        },
+        {
+          "name": "title_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK BOOK_TITLE",
+          "label_zh": "书目编号"
+        },
+        {
+          "name": "shelf_code",
+          "type": "VARCHAR2(30)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "书架代码"
+        },
+        {
+          "name": "copy_status",
+          "type": "VARCHAR2(10)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "副本实体状态"
+        }
+      ],
+      "label_zh": "馆藏副本"
+    },
+    {
+      "name": "LOAN",
+      "attributes": [
+        {
+          "name": "loan_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "借阅编号"
+        },
+        {
+          "name": "copy_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK BOOK_COPY",
+          "label_zh": "副本编号"
+        },
+        {
+          "name": "member_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK LIB_MEMBER",
+          "label_zh": "会员编号"
+        },
+        {
+          "name": "staff_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK STAFF",
+          "label_zh": "职员编号"
+        },
+        {
+          "name": "borrowed_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "借出时间"
+        },
+        {
+          "name": "due_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "当前到期时间"
+        },
+        {
+          "name": "returned_on",
+          "type": "DATE",
+          "nullable": true,
+          "key": "NULL",
+          "label_zh": "归还时间"
+        }
+      ],
+      "label_zh": "借阅"
+    },
+    {
+      "name": "RENEWAL",
+      "attributes": [
+        {
+          "name": "renewal_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "续借编号"
+        },
+        {
+          "name": "loan_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK LOAN",
+          "label_zh": "借阅编号"
+        },
+        {
+          "name": "staff_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK STAFF",
+          "label_zh": "职员编号"
+        },
+        {
+          "name": "renewed_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "续借时间"
+        },
+        {
+          "name": "previous_due_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "原到期时间"
+        },
+        {
+          "name": "new_due_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "新到期时间"
+        }
+      ],
+      "label_zh": "续借事件"
+    },
+    {
+      "name": "RESERVATION",
+      "attributes": [
+        {
+          "name": "reservation_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "PK",
+          "label_zh": "预约编号"
+        },
+        {
+          "name": "title_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK BOOK_TITLE",
+          "label_zh": "书目编号"
+        },
+        {
+          "name": "member_id",
+          "type": "NUMBER(10)",
+          "nullable": false,
+          "key": "FK LIB_MEMBER",
+          "label_zh": "会员编号"
+        },
+        {
+          "name": "reserved_on",
+          "type": "DATE",
+          "nullable": false,
+          "key": "",
+          "label_zh": "预约时间"
+        },
+        {
+          "name": "reservation_status",
+          "type": "VARCHAR2(10)",
+          "nullable": false,
+          "key": "",
+          "label_zh": "预约状态"
+        },
+        {
+          "name": "closed_on",
+          "type": "DATE",
+          "nullable": true,
+          "key": "NULL",
+          "label_zh": "关闭时间"
+        }
+      ],
+      "label_zh": "预约"
+    }
+  ],
+  "relationships": [
+    {
+      "parent": "MEMBER_TYPE",
+      "child": "LIB_MEMBER",
+      "foreign_key": "member_type_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "PUBLISHER",
+      "child": "BOOK_TITLE",
+      "foreign_key": "publisher_id",
+      "parents_per_child": "0..1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "BOOK_TITLE",
+      "child": "TITLE_AUTHOR",
+      "foreign_key": "title_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "AUTHOR",
+      "child": "TITLE_AUTHOR",
+      "foreign_key": "author_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "BOOK_TITLE",
+      "child": "BOOK_COPY",
+      "foreign_key": "title_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "BOOK_COPY",
+      "child": "LOAN",
+      "foreign_key": "copy_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "LIB_MEMBER",
+      "child": "LOAN",
+      "foreign_key": "member_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "STAFF",
+      "child": "LOAN",
+      "foreign_key": "staff_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "LOAN",
+      "child": "RENEWAL",
+      "foreign_key": "loan_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "STAFF",
+      "child": "RENEWAL",
+      "foreign_key": "staff_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "BOOK_TITLE",
+      "child": "RESERVATION",
+      "foreign_key": "title_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    },
+    {
+      "parent": "LIB_MEMBER",
+      "child": "RESERVATION",
+      "foreign_key": "member_id",
+      "parents_per_child": "1",
+      "children_per_parent": "0..N"
+    }
+  ],
+  "conditional_constraints": [
+    "LOAN: at most one returned_on IS NULL row per copy_id",
+    "RESERVATION: at most one ACTIVE row per (member_id,title_id)"
+  ],
+  "policy": {
+    "UG": [
+      20,
+      30,
+      3
+    ],
+    "FINAL_UG": [
+      25,
+      30,
+      3
+    ],
+    "PG": [
+      30,
+      30,
+      3
+    ]
+  },
+  "status_zh": "独立演示 schema，使用合成数据"
+}

@@ -1,0 +1,66 @@
+Session altered.
+
+[Environment / 环境]
+
+Oracle AI Database 26ai Free / 23.26.3.0.0
+
+Schema OPEN_SHELF_BOOKS_TEST on FREEPDB1
+
+Visible tables: BOOK_TITLE, BOOK_COPY, LOAN, RESERVATION
+
+Schema tables = 11
+[Q1] Outstanding loans and days overdue / 未归还与逾期
+
+LOAN_ID  MATRIC_NO      TITLE_NAME                     BARCODE        DUE_ON      DAYS_OVERDUE
+-------  -------------  -----------------------------  -------------  ----------  ------------
+      2  DEMO0002       Database Design Workbook       DEMO-C002      2026-10-20             9
+      1  DEMO0001       Database Design Workbook       DEMO-C001      2026-10-31             0
+      3  DEMO0003       Algorithms Study Guide         DEMO-C003      2026-11-09             0
+      7  DEMO0009       Computer Networks Notes        DEMO-C009      2026-11-14             0
+      8  DEMO0004       Software Testing Workbook      DEMO-C015      2026-11-30             0
+
+5 rows selected.
+
+[Q2] Loan totals by title / 按书目汇总借阅
+
+TITLE_ID  TITLE_NAME                     TOTAL_LOANS  ACTIVE_LOANS
+--------  -----------------------------  -----------  ------------
+       1  Database Design Workbook                 3             2
+       2  Algorithms Study Guide                   1             1
+       3  Introduction to Statistics               1             0
+       4  Research Methods Handbook                1             0
+       5  Computer Networks Notes                  1             1
+       8  Software Testing Workbook                1             1
+       6  Linear Algebra Exercises                 0             0
+       7  Academic Writing Guide                   0             0
+       9  Digital Ethics Reader                    0             0
+      10  Open Shelf Study Skills                  0             0
+
+10 rows selected.
+
+[Q3] Unmet reservation demand / 待满足的预约需求
+
+TITLE_ID  TITLE_NAME                     WAITING_MEMBERS
+--------  -----------------------------  ---------------
+       1  Database Design Workbook                     2
+       5  Computer Networks Notes                      1
+
+2 rows selected.
+
+
+Savepoint created.
+
+[Q4] Return a loan / 归还借阅
+
+PL/SQL procedure successfully completed.
+
+
+Loan 1 returned_on = 2026-10-29
+
+Copy 1 can_lend = YES
+[Rollback / 回滚]
+
+Restored baseline: loan 1 active = 1
+OPEN_SHELF_DEMO=PASS
+
+PL/SQL procedure successfully completed.

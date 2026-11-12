@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
+.vm/
+.lima/
+oracle-data/
+oradata/
