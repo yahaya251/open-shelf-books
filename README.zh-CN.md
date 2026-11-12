@@ -33,7 +33,7 @@ SQL 面向 Oracle Database 19c 及以上版本。使用 SQL*Plus 或 SQLcl 连�
 @db/05_demo.sql
 ```
 
-Oracle DDL 会隐式提交。仅在确实要清空可丢弃的项目 schema 时，运行 `@db/99_drop_project_objects.sql`。没有 Oracle 时可用 `python3 tests/validate_offline.py` 做离线检查。PL/SQL 和 Oracle 行锁须通过实机测试验证。
+Oracle DDL 会隐式提交。如需清空可丢弃的项目 schema，请以其所有者身份连接，再运行 `@db/99_drop_project_objects.sql`。重置脚本接受 `OPEN_SHELF_BOOKS` 或 `OPEN_SHELF_BOOKS_DEV` 这类带后缀的名称。没有 Oracle 时可用 `python3 tests/validate_offline.py` 做离线检查。PL/SQL 和 Oracle 行锁须通过实机测试验证。
 
 ## 流通流程
 

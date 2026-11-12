@@ -33,7 +33,7 @@ From a SQL session started at the repository root:
 @db/05_demo.sql
 ```
 
-Oracle DDL commits implicitly. Run `@db/99_drop_project_objects.sql` only to deliberately clear a disposable project schema. For checks without Oracle, use `python3 tests/validate_offline.py`. Offline checks do not exercise PL/SQL or Oracle row locks.
+Oracle DDL commits implicitly. To deliberately clear a disposable project schema, connect as its owner and run `@db/99_drop_project_objects.sql`. The reset script accepts `OPEN_SHELF_BOOKS` or a suffixed name such as `OPEN_SHELF_BOOKS_DEV`. For checks without Oracle, use `python3 tests/validate_offline.py`. Offline checks do not exercise PL/SQL or Oracle row locks.
 
 ## Circulation workflow
 
