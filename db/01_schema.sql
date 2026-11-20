@@ -1,4 +1,4 @@
--- 结构定义：11张表、主外键、检查约束、ALTER、条件唯一索引和派生视图。 / Schema:11 tables, keys, checks, ALTER, conditional unique indexes and derived views.
+-- Schema:11 tables, keys, checks, ALTER, conditional unique indexes and derived views.
 -- Oracle 19c+. Create in a dedicated EMPTY schema. No destructive cleanup here.
 
 CREATE TABLE MEMBER_TYPE (

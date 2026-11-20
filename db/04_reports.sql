@@ -1,6 +1,6 @@
--- Q1活跃/逾期；Q2 COUNT/SUM借阅统计；Q3嵌套查询未满足需求；附可借性与续借历史。 / Q1 active/overdue; Q2 COUNT/SUM popularity; Q3 nested unmet demand; availability/history.
+-- Q1 active/overdue; Q2 COUNT/SUM popularity; Q3 nested unmet demand; availability/history.
 -- Q1: CURRENT outstanding loans; evaluate overdue days at fixed demo date.
--- 当前未归还记录，以固定演示日计算逾期天数；不重建历史时点。
+-- Select currently open loans and compute overdue days at the fixed demo date without reconstructing historical state.
 -- v_active_loans uses SYSDATE. Q1 does not reconstruct historical outstanding state.
 SELECT l.loan_id,m.matric_no,t.title_name,c.barcode,l.due_on,
        GREATEST(DATE '2026-10-29'-TRUNC(l.due_on),0) AS days_overdue

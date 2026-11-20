@@ -1,6 +1,6 @@
 Session altered.
 
-[Environment / 环境]
+[Environment]
 
 Oracle AI Database 26ai Free / 23.26.3.0.0
 
@@ -9,7 +9,7 @@ Schema OPEN_SHELF_BOOKS_TEST on FREEPDB1
 Visible tables: BOOK_TITLE, BOOK_COPY, LOAN, RESERVATION
 
 Schema tables = 11
-[Q1] Outstanding loans and days overdue / 未归还与逾期
+[Q1] Outstanding loans and days overdue
 
 LOAN_ID  MATRIC_NO      TITLE_NAME                     BARCODE        DUE_ON      DAYS_OVERDUE
 -------  -------------  -----------------------------  -------------  ----------  ------------
@@ -21,7 +21,7 @@ LOAN_ID  MATRIC_NO      TITLE_NAME                     BARCODE        DUE_ON    
 
 5 rows selected.
 
-[Q2] Loan totals by title / 按书目汇总借阅
+[Q2] Loan totals by title
 
 TITLE_ID  TITLE_NAME                     TOTAL_LOANS  ACTIVE_LOANS
 --------  -----------------------------  -----------  ------------
@@ -38,7 +38,7 @@ TITLE_ID  TITLE_NAME                     TOTAL_LOANS  ACTIVE_LOANS
 
 10 rows selected.
 
-[Q3] Unmet reservation demand / 待满足的预约需求
+[Q3] Unmet reservation demand
 
 TITLE_ID  TITLE_NAME                     WAITING_MEMBERS
 --------  -----------------------------  ---------------
@@ -50,7 +50,7 @@ TITLE_ID  TITLE_NAME                     WAITING_MEMBERS
 
 Savepoint created.
 
-[Q4] Return a loan / 归还借阅
+[Q4] Return a loan
 
 PL/SQL procedure successfully completed.
 
@@ -58,7 +58,7 @@ PL/SQL procedure successfully completed.
 Loan 1 returned_on = 2026-10-29
 
 Copy 1 can_lend = YES
-[Rollback / 回滚]
+[Rollback]
 
 Restored baseline: loan 1 active = 1
 OPEN_SHELF_DEMO=PASS

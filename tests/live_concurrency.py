@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """Exercise two real Oracle sessions using a supplied SQL*Plus launcher.
-使用调用者提供的 SQL*Plus 启动命令，验证两个真实 Oracle 会话的并发行为。
 
-Usage / 用法: python3 live_concurrency.py ./scripts/oracle.sh sql
+Usage: python3 live_concurrency.py python3 scripts/oracle.py sql
 The launcher must connect to the dedicated dedicated demo schema, accept SQL on
 stdin, and return SQL*Plus output on stdout. Do not pass credentials as args.
-启动命令须连接专用课程 schema，从标准输入接受 SQL，并在标准输出返回结果。
-凭据由启动命令管理，无需作为参数传给此程序。
 """
 from concurrent.futures import ThreadPoolExecutor
 import re
@@ -35,12 +32,11 @@ ERROR_LINE = re.compile(r"^\s*(?:SP2|ORA|PLS)-\d+:", re.MULTILINE)
 
 
 class VerificationError(Exception):
-    """A runtime check failed / 实机验证失败。"""
+    """A runtime check failed"""
 
 
 def run_sql(launcher, body, label, marker):
     """Collect actual SQL*Plus output and require its success marker.
-    保留 SQL*Plus 实际输出，并核验成功标记。
     """
     try:
         completed = subprocess.run(
@@ -59,13 +55,13 @@ def run_sql(launcher, body, label, marker):
             output = output.decode("utf-8", errors="replace")
         if output.strip():
             print(output.rstrip(), flush=True)
-        raise VerificationError(f"{label}: SQL*Plus timed out / SQL*Plus 超时") from None
+        raise VerificationError(f"{label}: SQL*Plus timed out") from None
     except OSError:
-        raise VerificationError(f"{label}: SQL*Plus launcher failed / 无法启动 SQL*Plus") from None
+        raise VerificationError(f"{label}: SQL*Plus launcher failed") from None
     output = completed.stdout
     print(f"[{label}]\n{output.rstrip()}", flush=True)
     if completed.returncode != 0 or ERROR_LINE.search(output) or marker not in output:
-        raise VerificationError(f"{label}: expected Oracle result missing / 缺少预期 Oracle 结果")
+        raise VerificationError(f"{label}: expected Oracle result missing")
     return output
 
 
@@ -76,7 +72,7 @@ DECLARE
 BEGIN
     SELECT COUNT(*) INTO loan_count FROM LOAN;
     IF loan_count <> {BASELINE_LOANS} THEN
-        RAISE_APPLICATION_ERROR(-20870, 'Expected 8 seed loans / 预期 8 条样本借阅');
+        RAISE_APPLICATION_ERROR(-20870, 'Expected 8 seed loans');
     END IF;
     INSERT INTO MEMBER_TYPE VALUES ({TYPE_ID}, '{prefix}_INIT', 1, 7, 3);
     INSERT INTO LIB_MEMBER VALUES ({MEMBER_A}, '{prefix}A', 'Concurrency A',
@@ -88,7 +84,7 @@ BEGIN
     INSERT INTO BOOK_COPY VALUES ({COPY_A}, '{prefix}A', {COPY_A}, 'TEST', 'AVAILABLE');
     INSERT INTO BOOK_COPY VALUES ({COPY_B}, '{prefix}B', {COPY_B}, 'TEST', 'AVAILABLE');
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('OSB_CONC_SETUP_OK: 8 seed loans; temporary fixtures ready / 8 条样本借阅，临时记录已准备');
+    DBMS_OUTPUT.PUT_LINE('OSB_CONC_SETUP_OK: 8 seed loans; temporary fixtures ready');
 END;
 /
 """
@@ -111,7 +107,6 @@ BEGIN
     DBMS_SESSION.SET_IDENTIFIER('OSB_CONC_{race}_A');
     circulation_api.checkout({COPY_A}, {MEMBER_A}, 1, {DEMO_DATE}, new_loan_id);
     -- Independent marker transaction signals that A holds circulation locks.
-    -- 独立标记事务通知会话 B：会话 A 已持有借阅锁。
     publish_lock;
     FOR attempt IN 1..150 LOOP
         SELECT type_name INTO phase FROM MEMBER_TYPE WHERE member_type_id = {TYPE_ID};
@@ -119,11 +114,11 @@ BEGIN
         DBMS_SESSION.SLEEP(0.10);
     END LOOP;
     IF phase <> '{trying}' THEN
-        RAISE_APPLICATION_ERROR(-20871, 'Session B did not start / 会话 B 未开始');
+        RAISE_APPLICATION_ERROR(-20871, 'Session B did not start');
     END IF;
     DBMS_SESSION.SLEEP(2.5);
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('OSB_CONC_A_COMMITTED loan_id=' || new_loan_id || ' / 会话 A 已提交');
+    DBMS_OUTPUT.PUT_LINE('OSB_CONC_A_COMMITTED loan_id=' || new_loan_id || '');
 END;
 /
 """
@@ -154,7 +149,7 @@ BEGIN
         DBMS_SESSION.SLEEP(0.10);
     END LOOP;
     IF phase <> '{locked}' THEN
-        RAISE_APPLICATION_ERROR(-20872, 'Session A did not lock the fixture / 会话 A 未锁定临时记录');
+        RAISE_APPLICATION_ERROR(-20872, 'Session A did not lock the fixture');
     END IF;
     publish_attempt;
     started := DBMS_UTILITY.GET_TIME;
@@ -166,18 +161,18 @@ BEGIN
     elapsed_centiseconds := DBMS_UTILITY.GET_TIME - started;
     ROLLBACK;
     IF error_code <> {expected_code} THEN
-        RAISE_APPLICATION_ERROR(-20873, 'Unexpected checkout result / 借阅结果异常: ' || error_code);
+        RAISE_APPLICATION_ERROR(-20873, 'Unexpected checkout result: ' || error_code);
     END IF;
     IF elapsed_centiseconds < 100 THEN
-        RAISE_APPLICATION_ERROR(-20874, 'Observed wait was under 1 second / 实测等待不足 1 秒');
+        RAISE_APPLICATION_ERROR(-20874, 'Observed wait was under 1 second');
     END IF;
     SELECT COUNT(*) INTO active_count FROM LOAN
     WHERE copy_id IN ({COPY_A}, {COPY_B}) AND returned_on IS NULL;
     IF active_count <> 1 THEN
-        RAISE_APPLICATION_ERROR(-20875, 'Expected exactly one committed loan / 预期仅 1 条已提交借阅');
+        RAISE_APPLICATION_ERROR(-20875, 'Expected exactly one committed loan');
     END IF;
     DBMS_OUTPUT.PUT_LINE('OSB_CONC_B_PASS code=' || error_code || ' wait_centiseconds=' || elapsed_centiseconds ||
-        ' active_fixture_loans=' || active_count || ' / 会话 B 等待后被拒绝，仅保留 1 条临时借阅');
+        ' active_fixture_loans=' || active_count || '');
 END;
 /
 """
@@ -189,11 +184,11 @@ BEGIN
     DELETE FROM LOAN WHERE loan_id = {loan_id}
     AND copy_id = {COPY_A} AND member_id = {MEMBER_A} AND borrowed_on = {DEMO_DATE};
     IF SQL%ROWCOUNT <> 1 THEN
-        RAISE_APPLICATION_ERROR(-20876, 'Exact test loan could not be cleared / 无法清除指定临时借阅');
+        RAISE_APPLICATION_ERROR(-20876, 'Exact test loan could not be cleared');
     END IF;
     UPDATE MEMBER_TYPE SET type_name = '{prefix}_INIT' WHERE member_type_id = {TYPE_ID};
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('OSB_CONC_RACE_CLEARED / 临时借阅已清除');
+    DBMS_OUTPUT.PUT_LINE('OSB_CONC_RACE_CLEARED');
 END;
 /
 """
@@ -210,7 +205,6 @@ BEGIN
     WHERE member_type_id = {TYPE_ID} AND type_name IN ({exact_markers});
     IF owned_fixture = 1 THEN
         -- Exact synthetic keys, with a run-specific ownership guard.
-        -- 使用本次运行专属标记确认归属，再按精确的合成键清除。
         DELETE FROM LOAN WHERE copy_id IN ({COPY_A}, {COPY_B})
         AND member_id IN ({MEMBER_A}, {MEMBER_B}) AND borrowed_on = {DEMO_DATE};
         DELETE FROM BOOK_COPY WHERE (copy_id = {COPY_A} AND barcode = '{prefix}A')
@@ -224,9 +218,9 @@ BEGIN
     END IF;
     SELECT COUNT(*) INTO loan_count FROM LOAN;
     IF loan_count <> {BASELINE_LOANS} THEN
-        RAISE_APPLICATION_ERROR(-20877, 'Seed baseline not restored / 样本基准记录未恢复');
+        RAISE_APPLICATION_ERROR(-20877, 'Seed baseline not restored');
     END IF;
-    DBMS_OUTPUT.PUT_LINE('OSB_CONC_CLEANUP_OK baseline_loans=' || loan_count || ' / 样本借阅已恢复');
+    DBMS_OUTPUT.PUT_LINE('OSB_CONC_CLEANUP_OK baseline_loans=' || loan_count || '');
 END;
 /
 """
@@ -234,13 +228,12 @@ END;
 
 def verify(launcher):
     # A and B coordinate inside Oracle through autonomous marker transactions.
-    # A、B 通过 Oracle 自治标记事务协调，避免依赖 SQL*Plus 输出缓冲时序。
     prefix = "WC" + secrets.token_hex(5).upper()
     try:
-        run_sql(launcher, setup_sql(prefix), "Setup / 准备", "OSB_CONC_SETUP_OK")
+        run_sql(launcher, setup_sql(prefix), "Setup", "OSB_CONC_SETUP_OK")
         races = (
-            ("COPY", COPY_A, MEMBER_B, -20004, "Same copy / 同一副本"),
-            ("QUOTA", COPY_B, MEMBER_A, -20005, "Member quota / 会员名额"),
+            ("COPY", COPY_A, MEMBER_B, -20004, "Same copy"),
+            ("QUOTA", COPY_B, MEMBER_A, -20005, "Member quota"),
         )
         for race, copy_id, member_id, expected_code, label in races:
             with ThreadPoolExecutor(max_workers=2) as pool:
@@ -251,21 +244,21 @@ def verify(launcher):
                 b.result()
             match = re.search(r"OSB_CONC_A_COMMITTED loan_id=(\d+)", a_output)
             if match is None:
-                raise VerificationError("Missing exact committed loan ID / 缺少已提交借阅的精确编号")
-            run_sql(launcher, clear_race_sql(prefix, int(match.group(1))), "Reset / 重置", "OSB_CONC_RACE_CLEARED")
+                raise VerificationError("Missing exact committed loan ID")
+            run_sql(launcher, clear_race_sql(prefix, int(match.group(1))), "Reset", "OSB_CONC_RACE_CLEARED")
     finally:
-        run_sql(launcher, cleanup_sql(prefix), "Cleanup / 清理", "OSB_CONC_CLEANUP_OK")
-    print("OSB_CONC_ALL_PASS: two real Oracle races verified / 两项真实 Oracle 并发验证通过")
+        run_sql(launcher, cleanup_sql(prefix), "Cleanup", "OSB_CONC_CLEANUP_OK")
+    print("OSB_CONC_ALL_PASS: two real Oracle races verified")
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage / 用法: python3 live_concurrency.py <sqlplus-launcher> [args...]", file=sys.stderr)
+        print("Usage", file=sys.stderr)
         return 2
     try:
         verify(sys.argv[1:])
     except VerificationError as error:
-        print(f"FAIL / 失败: {error}", file=sys.stderr)
+        print(f"FAIL", file=sys.stderr)
         return 1
     return 0
 

@@ -9,39 +9,33 @@
           "name": "member_type_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "会员类型编号"
+          "key": "PK"
         },
         {
           "name": "type_name",
           "type": "VARCHAR2(40)",
           "nullable": false,
-          "key": "UQ",
-          "label_zh": "类型名称"
+          "key": "UQ"
         },
         {
           "name": "loan_limit",
           "type": "NUMBER(3)",
           "nullable": false,
-          "key": "",
-          "label_zh": "借阅数量上限"
+          "key": ""
         },
         {
           "name": "loan_days",
           "type": "NUMBER(3)",
           "nullable": false,
-          "key": "",
-          "label_zh": "借阅天数"
+          "key": ""
         },
         {
           "name": "max_renewals",
           "type": "NUMBER(2)",
           "nullable": false,
-          "key": "",
-          "label_zh": "续借次数上限"
+          "key": ""
         }
-      ],
-      "label_zh": "会员类型"
+      ]
     },
     {
       "name": "LIB_MEMBER",
@@ -50,53 +44,45 @@
           "name": "member_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "会员编号"
+          "key": "PK"
         },
         {
           "name": "matric_no",
           "type": "VARCHAR2(20)",
           "nullable": false,
-          "key": "UQ",
-          "label_zh": "学号"
+          "key": "UQ"
         },
         {
           "name": "full_name",
           "type": "VARCHAR2(100)",
           "nullable": false,
-          "key": "",
-          "label_zh": "姓名"
+          "key": ""
         },
         {
           "name": "email",
           "type": "VARCHAR2(254)",
           "nullable": false,
-          "key": "UQ",
-          "label_zh": "邮箱"
+          "key": "UQ"
         },
         {
           "name": "member_type_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK MEMBER_TYPE",
-          "label_zh": "会员类型编号"
+          "key": "FK MEMBER_TYPE"
         },
         {
           "name": "expires_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "会员到期日"
+          "key": ""
         },
         {
           "name": "status",
           "type": "VARCHAR2(10)",
           "nullable": false,
-          "key": "",
-          "label_zh": "会员状态"
+          "key": ""
         }
-      ],
-      "label_zh": "图书馆会员"
+      ]
     },
     {
       "name": "STAFF",
@@ -105,25 +91,21 @@
           "name": "staff_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "职员编号"
+          "key": "PK"
         },
         {
           "name": "staff_name",
           "type": "VARCHAR2(100)",
           "nullable": false,
-          "key": "",
-          "label_zh": "职员姓名"
+          "key": ""
         },
         {
           "name": "email",
           "type": "VARCHAR2(254)",
           "nullable": false,
-          "key": "UQ",
-          "label_zh": "邮箱"
+          "key": "UQ"
         }
-      ],
-      "label_zh": "职员"
+      ]
     },
     {
       "name": "PUBLISHER",
@@ -132,18 +114,15 @@
           "name": "publisher_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "出版社编号"
+          "key": "PK"
         },
         {
           "name": "publisher_name",
           "type": "VARCHAR2(120)",
           "nullable": false,
-          "key": "",
-          "label_zh": "出版社名称"
+          "key": ""
         }
-      ],
-      "label_zh": "出版社"
+      ]
     },
     {
       "name": "BOOK_TITLE",
@@ -152,39 +131,33 @@
           "name": "title_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "书目编号"
+          "key": "PK"
         },
         {
           "name": "isbn",
           "type": "VARCHAR2(13)",
           "nullable": true,
-          "key": "UQ",
-          "label_zh": "ISBN"
+          "key": "UQ"
         },
         {
           "name": "title_name",
           "type": "VARCHAR2(200)",
           "nullable": false,
-          "key": "",
-          "label_zh": "书名"
+          "key": ""
         },
         {
           "name": "publisher_id",
           "type": "NUMBER(10)",
           "nullable": true,
-          "key": "FK PUBLISHER",
-          "label_zh": "出版社编号"
+          "key": "FK PUBLISHER"
         },
         {
           "name": "publication_year",
           "type": "NUMBER(4)",
           "nullable": true,
-          "key": "NULL",
-          "label_zh": "出版年"
+          "key": "NULL"
         }
-      ],
-      "label_zh": "书目"
+      ]
     },
     {
       "name": "AUTHOR",
@@ -193,18 +166,15 @@
           "name": "author_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "作者编号"
+          "key": "PK"
         },
         {
           "name": "author_name",
           "type": "VARCHAR2(100)",
           "nullable": false,
-          "key": "",
-          "label_zh": "作者姓名"
+          "key": ""
         }
-      ],
-      "label_zh": "作者"
+      ]
     },
     {
       "name": "TITLE_AUTHOR",
@@ -213,18 +183,15 @@
           "name": "title_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK FK BOOK_TITLE",
-          "label_zh": "书目编号"
+          "key": "PK FK BOOK_TITLE"
         },
         {
           "name": "author_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK FK AUTHOR",
-          "label_zh": "作者编号"
+          "key": "PK FK AUTHOR"
         }
-      ],
-      "label_zh": "书目作者关联"
+      ]
     },
     {
       "name": "BOOK_COPY",
@@ -233,39 +200,33 @@
           "name": "copy_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "副本编号"
+          "key": "PK"
         },
         {
           "name": "barcode",
           "type": "VARCHAR2(30)",
           "nullable": false,
-          "key": "UQ",
-          "label_zh": "条码"
+          "key": "UQ"
         },
         {
           "name": "title_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK BOOK_TITLE",
-          "label_zh": "书目编号"
+          "key": "FK BOOK_TITLE"
         },
         {
           "name": "shelf_code",
           "type": "VARCHAR2(30)",
           "nullable": false,
-          "key": "",
-          "label_zh": "书架代码"
+          "key": ""
         },
         {
           "name": "copy_status",
           "type": "VARCHAR2(10)",
           "nullable": false,
-          "key": "",
-          "label_zh": "副本实体状态"
+          "key": ""
         }
-      ],
-      "label_zh": "馆藏副本"
+      ]
     },
     {
       "name": "LOAN",
@@ -274,53 +235,45 @@
           "name": "loan_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "借阅编号"
+          "key": "PK"
         },
         {
           "name": "copy_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK BOOK_COPY",
-          "label_zh": "副本编号"
+          "key": "FK BOOK_COPY"
         },
         {
           "name": "member_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK LIB_MEMBER",
-          "label_zh": "会员编号"
+          "key": "FK LIB_MEMBER"
         },
         {
           "name": "staff_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK STAFF",
-          "label_zh": "职员编号"
+          "key": "FK STAFF"
         },
         {
           "name": "borrowed_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "借出时间"
+          "key": ""
         },
         {
           "name": "due_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "当前到期时间"
+          "key": ""
         },
         {
           "name": "returned_on",
           "type": "DATE",
           "nullable": true,
-          "key": "NULL",
-          "label_zh": "归还时间"
+          "key": "NULL"
         }
-      ],
-      "label_zh": "借阅"
+      ]
     },
     {
       "name": "RENEWAL",
@@ -329,46 +282,39 @@
           "name": "renewal_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "续借编号"
+          "key": "PK"
         },
         {
           "name": "loan_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK LOAN",
-          "label_zh": "借阅编号"
+          "key": "FK LOAN"
         },
         {
           "name": "staff_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK STAFF",
-          "label_zh": "职员编号"
+          "key": "FK STAFF"
         },
         {
           "name": "renewed_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "续借时间"
+          "key": ""
         },
         {
           "name": "previous_due_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "原到期时间"
+          "key": ""
         },
         {
           "name": "new_due_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "新到期时间"
+          "key": ""
         }
-      ],
-      "label_zh": "续借事件"
+      ]
     },
     {
       "name": "RESERVATION",
@@ -377,46 +323,39 @@
           "name": "reservation_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "PK",
-          "label_zh": "预约编号"
+          "key": "PK"
         },
         {
           "name": "title_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK BOOK_TITLE",
-          "label_zh": "书目编号"
+          "key": "FK BOOK_TITLE"
         },
         {
           "name": "member_id",
           "type": "NUMBER(10)",
           "nullable": false,
-          "key": "FK LIB_MEMBER",
-          "label_zh": "会员编号"
+          "key": "FK LIB_MEMBER"
         },
         {
           "name": "reserved_on",
           "type": "DATE",
           "nullable": false,
-          "key": "",
-          "label_zh": "预约时间"
+          "key": ""
         },
         {
           "name": "reservation_status",
           "type": "VARCHAR2(10)",
           "nullable": false,
-          "key": "",
-          "label_zh": "预约状态"
+          "key": ""
         },
         {
           "name": "closed_on",
           "type": "DATE",
           "nullable": true,
-          "key": "NULL",
-          "label_zh": "关闭时间"
+          "key": "NULL"
         }
-      ],
-      "label_zh": "预约"
+      ]
     }
   ],
   "relationships": [
@@ -525,6 +464,5 @@
       30,
       3
     ]
-  },
-  "status_zh": "独立演示 schema，使用合成数据"
+  }
 }

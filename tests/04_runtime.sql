@@ -1,4 +1,4 @@
--- Oracle版本、对象健康、种子状态及安全DDL验证 / Version, health, seed and disposable DDL probe
+-- Version, health, seed and disposable DDL probe
 WHENEVER SQLERROR EXIT SQL.SQLCODE ROLLBACK
 SET ECHO OFF
 SET FEEDBACK OFF

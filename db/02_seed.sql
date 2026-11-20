@@ -1,4 +1,4 @@
--- 样本全部虚构；演示基准日2026-10-29，不含图书馆真实个人资料。 / All fixtures are synthetic, demonstration date2026-10-29, no real library personal data.
+-- All fixtures are synthetic, demonstration date2026-10-29, no real library personal data.
 -- All people, identifiers, titles and transactions below are SYNTHETIC.
 -- IDs <1000 are fixtures. Identity-generated application IDs start at1000.
 INSERT INTO MEMBER_TYPE VALUES (1,'Undergraduate',20,30,3);

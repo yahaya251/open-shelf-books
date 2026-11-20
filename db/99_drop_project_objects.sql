@@ -1,5 +1,4 @@
 -- Explicit reset of this application's objects in an Open Shelf Books schema.
--- 仅在 Open Shelf Books 的专用 schema 内显式重置对象。
 WHENEVER SQLERROR EXIT SQL.SQLCODE ROLLBACK
 SET SERVEROUTPUT ON
 DECLARE

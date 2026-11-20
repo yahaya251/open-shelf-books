@@ -1,4 +1,4 @@
--- Build into a dedicated empty Oracle schema / 在专用空 schema 中建库
+-- Build into a dedicated empty Oracle schema
 WHENEVER OSERROR EXIT FAILURE ROLLBACK
 WHENEVER SQLERROR EXIT SQL.SQLCODE ROLLBACK
 SET DEFINE OFF
