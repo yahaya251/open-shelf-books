@@ -1,0 +1,4 @@
+#!/bin/sh
+# Keep the selected Python interpreter when invoked by the one-click launcher.
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+exec "${OPEN_SHELF_PYTHON:-python3}" "$script_dir/lima_engine.py" "$@"

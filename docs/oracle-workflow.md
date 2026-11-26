@@ -1,6 +1,8 @@
 # Oracle operating guide
 
-[Project overview](../README.md)
+[Project overview](../README.md) · [One-click setup](setup.md) · [Optional local Mac runtime](local-macos.md)
+
+The manual container commands below use managed Docker/Podman defaults. If you selected an existing local backend in `.local/runtime.json`, use `scripts/start_project.py --verify`, `--demo`, `--concurrency` or `--sql-file` so the same backend is selected again.
 
 ## Prerequisites
 

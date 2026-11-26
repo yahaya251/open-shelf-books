@@ -1,0 +1,6 @@
+{
+  "backend": "lima",
+  "runtime_root": "/path/to/preserved/runtime-root",
+  "instance": "db",
+  "container": "wia2001-oracle"
+}

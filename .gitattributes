@@ -1,4 +1,8 @@
 * text=auto
+*.py text eol=lf
 *.sql text eol=lf
 *.sh text eol=lf
-*.py text eol=lf
+*.command text eol=lf
+scripts/lima-engine text eol=lf
+*.bat text eol=crlf
+*.md text eol=lf
